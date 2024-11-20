@@ -3,7 +3,7 @@ Change single letters (vowels) to specific colors in Microsoft Word documents (D
 ---
 This script will loop through individual letters and reformat each occurrence of a letter with a specific color (RGB);  
 If 'change_font' is True, the script will replace the entire document's font name and font size.
-The the formatted document is saved as a new document.
+The reformatted document is saved as a new document.
 Fonts need to be already installed on the computer.
 
 Books are found in the directory: os.path.join(os.getcwd(), 'books')
