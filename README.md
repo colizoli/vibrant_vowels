@@ -21,3 +21,5 @@ To run:
 >> python color_text_vibrant_vowels.py
 
 You will be prompted with the book name and whether you want to change the font type and size.
+
+Debugged on Python 3.9
