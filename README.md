@@ -6,12 +6,12 @@ If 'change_font' is True, the script will replace the entire document's font nam
 The reformatted document is saved as a new document.
 Fonts need to be already installed on the computer.
 
-Books are found in the directory: os.path.join(os.getcwd(), 'books')
-The name of book input at the prompt should exclude the 'docx' file type: "{}.docx".format()
-The new colored version will be saved as: "{}_vibrant_vowels.docx".format()
+Books are found in the directory: os.path.join(os.getcwd(), 'books').
+The name of book input at the prompt should exclude the 'docx' file type: "{}.docx".format().
+The new colored version will be saved as: "{}_vibrant_vowels.docx".format().
 
-Letters and colors to be changed are imported from a CSV file in the directory: os.path.join(os.getcwd(), 'colors')
-The CSV file with colors needs to have the following columns: 'letter', 'r', 'g', 'b'
+Letters and colors to be changed are imported from a CSV file in the directory: os.path.join(os.getcwd(), 'colors').
+The CSV file with colors needs to have the following columns: 'letter', 'r', 'g', 'b'.
 Letters are case-sensitive.
 
 The following packages needs to be installed: python-docx, pandas, numpy
