@@ -14,7 +14,7 @@ Letters and colors to be changed are imported from a CSV file in the directory: 
 The CSV file with colors needs to have the following columns: 'letter', 'r', 'g', 'b'.
 Letters are case-sensitive.
 
-The following packages needs to be installed: python-docx, pandas, numpy
+The following packages need to be installed: python-docx, pandas, numpy
 >> pip install python-docx
 
 To run:
