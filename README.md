@@ -19,7 +19,16 @@ The following packages need to be installed: python-docx, pandas, numpy
 
 To run:
 >> python color_text_vibrant_vowels.py
-
 You will be prompted with the book name and whether you want to change the font type and size.
+
+Character formatting is applied at the docx.text.run.Run level. 
+The script can be adjusted to change the font typeface, size, bold, italic, 
+and underline of single letters or the whole document.
+A Run object has a read-only font property providing access to a Font object. 
+A run's Font object (docx.text.run.Run.font) provides properties for getting and setting the character formatting for that run.
+E.g. current_run.font.color.rgb = RGBColor(r, g, b) 
+
+The function for isolating individual letters as runs, isolate_run(), was taken from here:
+See: https://github.com/python-openxml/python-docx/issues/980
 
 Debugged on Python 3.9. Not optimized for efficiency or speed, but it works.
