@@ -1,5 +1,5 @@
 # vibrant_vowels
-Change single letters (vowels) to specific colors in Word documents.
+Change single letters (vowels) to specific colors in Microsoft Word documents (DOCX).
 ---
 This script will loop through individuals letters and reformat each occurrence of a letter with a specific color (RBG);  
 If 'change_font' is True, the script will replace the entire document's font name and font size.
