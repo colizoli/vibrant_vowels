@@ -4,22 +4,11 @@
 Vibrant Vowels: Vowel-grapheme to color code for Word documents (DOCX)
 O.Colizoli 2024
 Python 3.9
-"""
-import os, time, itertools, copy
-import docx
-from docx import Document
-from docx.shared import Pt
-from docx.shared import RGBColor
-import pandas as pd
-import numpy as np
 
-# from IPython import embed as shell # for Olympia's debugging only
-
-'''
 Notes
 -------------
 This script will loop through individual letters and reformat each occurrence of a letter with a specific color (RGB);
-If 'change_font' is True, the script will replace the entire document's font name and font size. 
+If 'change_font' is True, the script will replace the entire document's font typeface and font size. 
 The reformatted document is saved as a new document. 
 Fonts need to be already installed on the computer.
 ---
@@ -47,10 +36,21 @@ E.g. current_run.font.color.rgb = RGBColor(r, g, b)
 ---
 The function for isolating individual letters as runs, isolate_run(), was taken from here:
 See: https://github.com/python-openxml/python-docx/issues/980
-'''
+"""
+
+import os, time, itertools, copy
+import docx
+from docx import Document
+from docx.shared import Pt
+from docx.shared import RGBColor
+import pandas as pd
+import numpy as np
+
+# from IPython import embed as shell # for Olympia's debugging only
+
 
 def isolate_run(paragraph, start, end):
-    """Return docx.text.run object containing only `paragraph.text[start:end]`.
+    """Return docx.text.run.Run object containing only `paragraph.text[start:end]`.
     
     Notes
     -----
@@ -128,45 +128,43 @@ def isolate_run(paragraph, start, end):
         lengthen_run(r, r_idx, end)
 
     return docx.text.run.Run(r, paragraph)
-  
 
-''' RUN '''      
-if __name__ == "__main__":
+
+def replace_letters_with_colors():
+    '''In a Microsoft Word document (DOCX), reformat each occurrence of a letter with a specific color (RGB).
     
-    book_name = input("Name of book: ")
-    change_font = int(input("Change Font? (1 for Yes, 0 for No): "))
+    Notes:
+    ------
+    See notes at top of script for more information. 
+    '''
+    book_name = input('Name of book: ')
+    change_font = int(input('Change Font? (1 for Yes, 0 for No): '))
     
     if change_font:
-        replace_font = input("Font name: ")
-        replace_size = np.float32(input("Font size: "))
+        replace_font = input('Font name: ')
+        replace_size = np.float32(input('Font size: '))
 
-    in_book_filename = os.path.join('books', "{}.docx".format(book_name)) # original
-    out_book_filename = os.path.join('books', "{}_vibrant_vowels.docx".format(book_name)) # save as new
+    in_book_filename = os.path.join('books', '{}.docx'.format(book_name)) # original
+    out_book_filename = os.path.join('books', '{}_vibrant_vowels.docx'.format(book_name)) # save as new
     
     # Define letters and colors to replace
     df = pd.read_csv(os.path.join('colors', 'vibrant_vowels_colors.csv')) # the CSV file with the 'letters' and 'r', 'g', 'b' values
-
     letters = df['letter'] # vowels including y
     colors_r = df['r'] # red value for RGB code
     colors_g = df['g'] # green value for RGB code
     colors_b = df['b'] # blue value for RGB code
-    
-    t0 = time.time() # measure run time (not optimized, just curious)
 
     # First, run the letter-by-letter search and replace loop
     doc = Document(in_book_filename)
     for idx_letter,letter in enumerate(letters): # loop over letters
-    
         print('Searching for "{}"...'.format(letter))
         print('Number of paragraphs: {}'.format(len(doc.paragraphs)))
-    
         for p_idx,paragraph in enumerate(doc.paragraphs):
             # print('Paragraph {}'.format(p_idx))
-        
             for start in range(len(paragraph.text)): # isolate runs that are 1 character in length only
-                end = start + 1 # the 1 indicates the step size to search for strings, i.e., only 1 unit from start will equal a single character
+                # Here the "1" indicates the step size to search for strings, i.e., ending only 1 unit from start of string will return a single character in a single run
+                end = start + 1 
                 current_run = isolate_run(paragraph, start, end)
-            
                 if current_run.text == letter: # only change the color of letters in the CSV file (case-sensitive)
                     current_run.font.color.rgb = RGBColor(int(colors_r[idx_letter]), int(colors_g[idx_letter]), int(colors_b[idx_letter]))   
                     # If you want to change other formatting options of the individual letters, you can specify that here:
@@ -174,20 +172,26 @@ if __name__ == "__main__":
                     # current_run.font.name 
                     # current_run.font.italic
                     # etc...
-    
-    # Replace the entire doc's font type (name) and size, save it
+                    
+    # Replace the entire doc's font typeface (name) and size
     if change_font: 
         print('Changing font to {} and size {}...'.format(replace_font, replace_size))
-                
         for paragraph in doc.paragraphs:
-            
             for r in paragraph.runs:
                 r.font.name = replace_font
                 r.font.size = Pt(replace_size)
-                ##r.font.color.rgb = RGBColor(0, 0, 0) # set all to black
+                #r.font.color.rgb = RGBColor(0, 0, 0) # e.g., set all to black
     # save as new book
     doc.save(out_book_filename)
     print('New book saved as {}'.format(out_book_filename))
+    
+
+''' RUN '''      
+if __name__ == '__main__':
+    t0 = time.time() # measure run time (not optimized, just curious)
+    replace_letters_with_colors()
     print('It took {} minutes'.format( (time.time()-t0)/60 )) # report run time
+    
+    
     
 
