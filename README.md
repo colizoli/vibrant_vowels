@@ -15,7 +15,7 @@ The CSV file with colors needs to have the following columns: 'letter', 'r', 'g'
 Letters are case-sensitive.
 
 The following packages need to be installed: python-docx, pandas, numpy
->> pip install python-docx
+>> pip install python-docx pandas numpy
 
 To run:
 >> python color_text_vibrant_vowels.py
