@@ -22,4 +22,4 @@ To run:
 
 You will be prompted with the book name and whether you want to change the font type and size.
 
-Debugged on Python 3.9
+Debugged on Python 3.9. Not optimized for efficiency or speed, but it works.
